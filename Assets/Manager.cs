@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Manager : MonoBehaviour {
-	private int currentPointer = 0;
+	public int currentPointer = 0;
 	
+	public GameObject answerCorrect;
+	public GameObject answerWrong;
+
 	public Pivot seconds;
 	public Pivot minutes;
 	public Pivot hours;
@@ -25,12 +28,18 @@ public class Manager : MonoBehaviour {
 	private Pivot pointer;
 
 	void Start () {
-		restartGame();
+		restartGame(false, false);
 	}
 
-	public void restartGame(){
+	public void restartGame(bool correct, bool wrong){		
 		generateResult();
 		randomHour();
+		activeFeedbacks(correct, wrong);
+	}
+
+	public void activeFeedbacks(bool correct, bool wrong){
+		answerCorrect.SetActive(correct);
+		answerWrong.SetActive(wrong);
 	}
 
 	void randomHour(){
@@ -41,19 +50,22 @@ public class Manager : MonoBehaviour {
 		seconds.setIndex(randomSeconds);
 		minutes.setIndex(randomMinutes);
 		hours.setIndex(randomHours);
+
+		print(randomHours + ":" + randomMinutes + ":" + randomSeconds);
 	}
 
 	void generateResult(){
-		resultSeconds = 3;
-		resultMinutes = 5;
-		resultHours = 2;
+		resultSeconds = 3; //(int) Random.Range(0,59);
+		resultMinutes = 5; //(int) Random.Range(0,59);
+		resultHours = 2; //(int) Random.Range(0,11);
+
 		print(resultHours + ":" + resultMinutes + ":" + resultSeconds);
 	}
 
-	void checkResult(){
+	void checkResult(){		
 		print(hours.getIndex() + ":" + minutes.getIndex() + ":" + seconds.getIndex());
 		if( resultSeconds == seconds.getIndex() && resultMinutes == minutes.getIndex() && resultHours == hours.getIndex()){
-			print("ACERTEI");
+			restartGame(true, false);
 		}
 	}
 

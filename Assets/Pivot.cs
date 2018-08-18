@@ -10,9 +10,9 @@ public class Pivot : MonoBehaviour {
 	public bool isHour;
 	private const float hoursToDegrees = 360f/12f,
 	secondsToDegrees= 360f/60f;
-	private int offset = -90;
+	private int initalOffset = -90;
 	void Start () {		
-		transform.Rotate(new Vector3(0f, offset ,0f));
+		// transform.Rotate(new Vector3(0f, initalOffset ,0f));
 	}	
 
 	public void setIndex(int index){
@@ -20,7 +20,8 @@ public class Pivot : MonoBehaviour {
 		if(isHour){
 			offset = index * hoursToDegrees;
 		}
-		transform.Rotate(new Vector3(0f, offset ,0f));
+		transform.eulerAngles = new Vector3(0f, initalOffset + offset ,0f);
+		// transform.Rotate(new Vector3(0f, offset ,0f));
 	}
 
 	public void setDirection(bool isUp){
@@ -36,7 +37,7 @@ public class Pivot : MonoBehaviour {
 	}
 
 	public int getIndex(){
-		int index = (int) Mathf.Round(((transform.eulerAngles.y - offset)/secondsToDegrees) % 60);
+		int index = (int) Mathf.Round(((transform.eulerAngles.y - initalOffset)/secondsToDegrees) % 60);
 		if(isHour){
 			index = index / 5;
 		}

@@ -15,8 +15,8 @@ public class ManagerTime : MonoBehaviour {
 	void Update () {
 		currentTime += Time.deltaTime;
 		if(currentTime >= totalTime){
-			currentTime = 0;
-			gameManager.restartGame();
+			currentTime = 0;			
+			gameManager.restartGame(false, true);
 		}
 	}
 }
