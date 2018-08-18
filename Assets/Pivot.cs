@@ -29,12 +29,19 @@ public class Pivot : MonoBehaviour {
 		}
 	}
 
+	public int getIndex(){
+		int index = (int) Mathf.Round(((transform.eulerAngles.y - offset)/secondsToDegrees) % 60);
+		if(isHour){
+			index = index / 5;
+		}
+		return index;
+	}
+
 	void rotate(){
 
 	}
 	// Update is called once per frame
 	void Update () {
-		print(Mathf.Round(((transform.eulerAngles.y - offset)/secondsToDegrees) % 60));
 		float step = speed * Time.deltaTime;
 		// var x = Input.GetAxis("Horizontal");
 		// var y = Input.GetAxis("Vertical");

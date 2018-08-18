@@ -11,11 +11,35 @@ public class Manager : MonoBehaviour {
 	public Pivot minutes;
 	public Pivot hours;
 
+	private int resultSeconds;
+	private int resultMinutes;
+	private int resultHours;
+
 	private Pivot pointer;
 	void Start () {
-		
+		getResult();
 	}
 
+	void randomResult(){
+		resultSeconds = Random.Range(0,59);
+		resultMinutes = Random.Range(0,59);
+		resultHours = Random.Range(0,11);
+
+		print(resultHours + ":" + resultMinutes + ":" + resultSeconds);
+	}
+
+	void getResult(){
+		resultSeconds = 3
+		resultMinutes = 5
+		resultHours = 2
+	}
+
+	void checkResult(){
+		print(hours.getIndex() + ":" + minutes.getIndex() + ":" + seconds.getIndex());
+		if( resultSeconds == seconds.getIndex() && resultMinutes == minutes.getIndex() && resultHours == hours.getIndex()){
+			print("ACERTEI");
+		}
+	}
 
 	void setCurrent(int index){
 		switch (index){
@@ -52,14 +76,16 @@ public class Manager : MonoBehaviour {
 		}
 		
 		if(Input.GetKeyDown(KeyCode.UpArrow)){
-			print(currentPointer);
+			// print(currentPointer);
 			setCurrent(currentPointer);
 			pointer.setPosition(true);
+			checkResult();
 		}
 		if(Input.GetKeyDown(KeyCode.DownArrow)){
-			print(currentPointer);
+			// print(currentPointer);
 			setCurrent(currentPointer);
 			pointer.setPosition(false);
+			checkResult();
 			// transform.Rotate(new Vector3(0f, -secondsToDegrees ,0f));
 		}
 	}
