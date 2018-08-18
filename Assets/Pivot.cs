@@ -15,7 +15,7 @@ public class Pivot : MonoBehaviour {
 	}
 	
 
-	void setPosition(bool isUp){
+	public void setPosition(bool isUp){
 		if(isUp){
 			transform.Rotate(new Vector3(0f, secondsToDegrees ,0f));
 		}else{
