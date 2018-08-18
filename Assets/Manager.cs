@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Manager : MonoBehaviour {
-
-	// Use this for initialization
 	private int currentPointer = 0;
 	
 	public Pivot seconds;
 	public Pivot minutes;
 	public Pivot hours;
+
+	public float minutesHoldingInterval;
+	public float hourHoldingInterval;
+
+	private float currentHoldInterval;
+
+	public float firstHoldTimeout;
+	private float holdTimer;
+	private bool holdActive = false;
 
 	private int resultSeconds;
 	private int resultMinutes;
@@ -29,9 +36,10 @@ public class Manager : MonoBehaviour {
 	}
 
 	void getResult(){
-		resultSeconds = 3
-		resultMinutes = 5
-		resultHours = 2
+		resultSeconds = 3;
+		resultMinutes = 5;
+		resultHours = 2;
+		print(resultHours + ":" + resultMinutes + ":" + resultSeconds);
 	}
 
 	void checkResult(){
@@ -43,8 +51,7 @@ public class Manager : MonoBehaviour {
 
 	void setCurrent(int index){
 		switch (index){
-			case 0:
-			
+			case 0:			
 			pointer = hours;
 			break;
 			case 1:
@@ -56,37 +63,59 @@ public class Manager : MonoBehaviour {
 			default:
 			break;
 		};
-		// currentPointer;
 	}
 	
-	
+	void setCurrentPointer(int offset){
+		currentPointer = (currentPointer - offset)%3;
+		if(currentPointer < 0){
+			currentPointer = 2;
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.LeftArrow)){
-			
-			currentPointer = (currentPointer-1)%3;
-			if(currentPointer < 0){
-				currentPointer = 2;
-			}
-			
+		if(Input.GetKeyDown(KeyCode.LeftArrow)){		
+			setCurrentPointer(-1);			
 		}
 
 		if(Input.GetKeyDown(KeyCode.RightArrow)){
-			currentPointer = (currentPointer+1)%3;
+			setCurrentPointer(1);
+		}
+
+		checkClickAndContinuousMovement(KeyCode.DownArrow);
+		checkClickAndContinuousMovement(KeyCode.UpArrow);
+	}
+
+	void checkClickAndContinuousMovement(KeyCode keyCode){
+		bool isUp = keyCode == KeyCode.UpArrow;
+		
+		// CHECK UP ARROW
+		if(Input.GetKeyDown(keyCode)){
+			holdTimer = 0;
+			holdActive = false;
+			setCurrent(currentPointer);
+			pointer.setPosition(isUp);
+			if(pointer.isHour){
+				currentHoldInterval = hourHoldingInterval;
+			}else{
+				currentHoldInterval = minutesHoldingInterval;				
+			}
 		}
 		
-		if(Input.GetKeyDown(KeyCode.UpArrow)){
-			// print(currentPointer);
-			setCurrent(currentPointer);
-			pointer.setPosition(true);
-			checkResult();
+		if(Input.GetKey(keyCode)){
+			holdTimer += Time.deltaTime;
+			if(!holdActive && holdTimer > firstHoldTimeout){				
+				holdActive = true;				
+			}
+			if(holdActive && holdTimer > currentHoldInterval){
+				holdTimer = 0;
+				setCurrent(currentPointer);
+				pointer.setPosition(isUp);
+			}
 		}
-		if(Input.GetKeyDown(KeyCode.DownArrow)){
-			// print(currentPointer);
-			setCurrent(currentPointer);
-			pointer.setPosition(false);
+
+		if(Input.GetKeyUp(keyCode)){
 			checkResult();
-			// transform.Rotate(new Vector3(0f, -secondsToDegrees ,0f));
 		}
 	}
 }
