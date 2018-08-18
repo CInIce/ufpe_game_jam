@@ -28,7 +28,7 @@ public class Manager : MonoBehaviour {
 		restartGame();
 	}
 
-	void restartGame(){
+	public void restartGame(){
 		generateResult();
 		randomHour();
 	}
