@@ -16,6 +16,14 @@ public class Pivot : MonoBehaviour {
 	}
 	
 
+	void setPosition(bool isUp){
+		if(isUp){
+			transform.Rotate(new Vector3(0f, secondsToDegrees ,0f));
+		}else{
+			transform.Rotate(new Vector3(0f, -secondsToDegrees ,0f));
+		}
+	}
+
 	void rotate(){
 
 	}
@@ -25,12 +33,7 @@ public class Pivot : MonoBehaviour {
 		float step = speed * Time.deltaTime;
 		// var x = Input.GetAxis("Horizontal");
 		// var y = Input.GetAxis("Vertical");
-		if(Input.GetKeyDown(KeyCode.UpArrow)){
-			transform.Rotate(new Vector3(0f, secondsToDegrees ,0f));
-		}
-		if(Input.GetKeyDown(KeyCode.DownArrow)){
-			transform.Rotate(new Vector3(0f, -secondsToDegrees ,0f));
-		}
+	
 		// transform.Rotate(new Vector3(0f, step ,0f));
 		// rotate();
 	}
