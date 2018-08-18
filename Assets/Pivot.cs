@@ -11,13 +11,19 @@ public class Pivot : MonoBehaviour {
 	private const float hoursToDegrees = 360f/12f,
 	secondsToDegrees= 360f/60f;
 	private int offset = -90;
-	void Start () {
-		
+	void Start () {		
+		transform.Rotate(new Vector3(0f, offset ,0f));
+	}	
+
+	public void setIndex(int index){
+		float offset = index * secondsToDegrees;
+		if(isHour){
+			offset = index * hoursToDegrees;
+		}
 		transform.Rotate(new Vector3(0f, offset ,0f));
 	}
-	
 
-	public void setPosition(bool isUp){
+	public void setDirection(bool isUp){
 		float offset = secondsToDegrees;
 		if(isHour){
 			offset = hoursToDegrees;

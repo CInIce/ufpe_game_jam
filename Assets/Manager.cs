@@ -23,19 +23,27 @@ public class Manager : MonoBehaviour {
 	private int resultHours;
 
 	private Pivot pointer;
+
 	void Start () {
-		getResult();
+		restartGame();
 	}
 
-	void randomResult(){
-		resultSeconds = Random.Range(0,59);
-		resultMinutes = Random.Range(0,59);
-		resultHours = Random.Range(0,11);
-
-		print(resultHours + ":" + resultMinutes + ":" + resultSeconds);
+	void restartGame(){
+		generateResult();
+		randomHour();
 	}
 
-	void getResult(){
+	void randomHour(){
+		int randomSeconds = (int) Random.Range(0,59);
+		int randomMinutes = (int) Random.Range(0,59);
+		int randomHours = (int) Random.Range(0,11);
+
+		seconds.setIndex(randomSeconds);
+		minutes.setIndex(randomMinutes);
+		hours.setIndex(randomHours);
+	}
+
+	void generateResult(){
 		resultSeconds = 3;
 		resultMinutes = 5;
 		resultHours = 2;
@@ -94,7 +102,7 @@ public class Manager : MonoBehaviour {
 			holdTimer = 0;
 			holdActive = false;
 			setCurrent(currentPointer);
-			pointer.setPosition(isUp);
+			pointer.setDirection(isUp);
 			if(pointer.isHour){
 				currentHoldInterval = hourHoldingInterval;
 			}else{
@@ -110,7 +118,7 @@ public class Manager : MonoBehaviour {
 			if(holdActive && holdTimer > currentHoldInterval){
 				holdTimer = 0;
 				setCurrent(currentPointer);
-				pointer.setPosition(isUp);
+				pointer.setDirection(isUp);
 			}
 		}
 
