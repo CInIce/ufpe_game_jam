@@ -95,11 +95,11 @@ public class Manager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.LeftArrow)){		
-			setCurrentPointer(-1);			
+			setCurrentPointer(1);			
 		}
 
 		if(Input.GetKeyDown(KeyCode.RightArrow)){
-			setCurrentPointer(1);
+			setCurrentPointer(-1);
 		}
 
 		checkClickAndContinuousMovement(KeyCode.DownArrow);
